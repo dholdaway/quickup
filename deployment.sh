@@ -4,7 +4,7 @@ cd /
 clear
 
 echo "--------------------------------------------------------"
-echo " Darren Deployment Script v2                            "
+echo " Quickup Deployment Script v2                            "
 echo "--------------------------------------------------------"
 
 $1 - 
