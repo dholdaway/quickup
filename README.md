@@ -1,6 +1,6 @@
 A short script to deploy a apache based webserver. <br>
 
-the script will also install the following Components
+the script will install the following Components
 
 Node Version Manager - https://github.com/creationix/nvm <br>
 New relic monitoring - http://newrelic.com/ <br>
