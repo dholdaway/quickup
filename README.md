@@ -1,4 +1,4 @@
-A short script to setup a apache based webserver. <br>
+A short script to deploy a apache based webserver. <br>
 
 the script will also install the following Components
 
