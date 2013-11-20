@@ -11,3 +11,5 @@ oh my zsh - https://github.com/robbyrussell/oh-my-zsh <br>
 Gem - https://en.wikipedia.org/wiki/RubyGems <br>
 Grunt - http://gruntjs.com/ <br>
 UFW - https://help.ubuntu.com/community/UFW <br>
+
+Added apachebuddy.pl -- https://github.com/gusmaskowitz/apachebuddy.pl <br>
