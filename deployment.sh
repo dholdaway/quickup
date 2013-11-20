@@ -40,6 +40,8 @@ echo ServerName localhost >> /etc/apache2/httpd.conf
 
 dpkg-reconfigure tzdata
 
+sudo locale-gen en_GB.UTF-8
+
 date
 
 # time 
