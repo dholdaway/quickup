@@ -17,11 +17,7 @@ $3 = ""
 # Vhostname = could be anything 
 
 
-#add host in /etc/hosts
-echo "Adding Host names"
 
-echo $1 $2 >> /etc/hosts 
-echo "ServerName localhost" >> /etc/apache2/httpd.conf 
 
 #update time zone
 
@@ -102,6 +98,11 @@ echo " install Apache and php5"
 apt-get install apache2 php5 php5-curl php5-mysql -y
 
 rm /etc/apache2/sites-available/000-default -y
+
+echo "Adding Host names"
+
+echo $1 $2 >> /etc/hosts 
+echo "ServerName localhost" >> /etc/apache2/httpd.conf 
 
 mkdir /var/log/apache2/$3
 
@@ -222,5 +223,8 @@ echo ruby -v >> installed_versions.txt
 echo compass -v >> installed_versions.txt
 echo npm -v >> installed_versions.txt
 echo php -v >> installed_versions.txt
+
+#add host in /etc/hosts
+
 
 reboot
