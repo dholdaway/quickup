@@ -112,8 +112,20 @@ echo "<VirtualHost *:80>
     DocumentRoot /var/www/$3
 
     LogLevel warn
-    ErrorLog /var/log/apache2/$3/error.log
-    CustomLog /var/log/apache2/$3/access.log combined
+    ErrorLog /var/log/apache2/live/error.log
+    CustomLog /var/log/apache2/live/access.log combined
+
+    <Directory /var/www/$3>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+    </Directory>
+
+
+
+
+</VirtualHost>
 
 </VirtualHost>" > /etc/apache2/sites-available/$3
 
@@ -166,7 +178,7 @@ chown www-data:www-data /etc/apache2/sites-available/$3
 
 a2ensite $3
 
-#a2enmod rewrite
+a2enmod rewrite
 
 # reload Apache2
 
@@ -204,11 +216,11 @@ ufw allow https
 
 mkdir /versions
 cd /versions
-echo -e $1 $2 >> installed_versions.txt
-echo -e grunt --version >> installed_versions.txt
-echo -e ruby -v >> installed_versions.txt
-echo -e compass -v >> installed_versions.txt
-echo -e npm -v >> installed_versions.txt
-echo -e php -v >> installed_versions.txt
+echo $1 $2 >> installed_versions.txt
+echo grunt --version >> installed_versions.txt
+echo ruby -v >> installed_versions.txt
+echo compass -v >> installed_versions.txt
+echo npm -v >> installed_versions.txt
+echo php -v >> installed_versions.txt
 
 reboot
