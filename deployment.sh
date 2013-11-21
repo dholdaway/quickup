@@ -4,12 +4,12 @@ cd /
 clear
 
 echo "--------------------------------------------------------"
-echo " Quickup Deployment Script v2                            "
+echo " Quickup Deployment Script v5                           "
 echo "--------------------------------------------------------"
 
-set $1 = "162.13.151.36" 
-set $2 = "www.sheptoncider.co.uk" 
-set $3 = "live" 
+set $1 = "" 
+set $2 = "" 
+set $3 = "" 
  
 # EXAMPLE
 # IP = 127.0.0.1
