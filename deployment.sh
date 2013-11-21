@@ -99,11 +99,6 @@ apt-get install apache2 php5 php5-curl php5-mysql -y
 
 rm /etc/apache2/sites-available/000-default -y
 
-echo "Adding Host names"
-
-echo $1 $2 >> /etc/hosts 
-echo "ServerName localhost" >> /etc/apache2/httpd.conf 
-
 mkdir /var/log/apache2/$3
 
 chown root:root /var/log/apache2/$3
@@ -123,10 +118,6 @@ echo "<VirtualHost *:80>
                 allow from all
     </Directory>
 
-
-
-
-</VirtualHost>
 
 </VirtualHost>" > /etc/apache2/sites-available/$3
 
@@ -226,5 +217,9 @@ echo php -v >> installed_versions.txt
 
 #add host in /etc/hosts
 
+echo "Adding Host names"
+
+echo $1 $2 >> /etc/hosts 
+echo "ServerName localhost" >> /etc/apache2/httpd.conf 
 
 reboot
