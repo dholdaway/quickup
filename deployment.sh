@@ -208,12 +208,12 @@ ufw allow https
 
 mkdir /versions
 cd /versions
-echo $1 $2 >> installed_versions.txt
-echo grunt --version >> installed_versions.txt
-echo ruby -v >> installed_versions.txt
-echo compass -v >> installed_versions.txt
-echo npm -v >> installed_versions.txt
-echo php -v >> installed_versions.txt
+$1 $2 >> installed_versions.txt
+grunt --version >> installed_versions.txt
+ruby -v >> installed_versions.txt
+compass -v >> installed_versions.txt
+npm -v >> installed_versions.txt
+php -v >> installed_versions.txt
 
 #add host in /etc/hosts
 
