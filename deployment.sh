@@ -56,7 +56,7 @@ echo "Installing NVM"
 
 curl https://raw.github.com/creationix/nvm/master/install.sh | sh
 
-nvm install v0.10.20
+nvm install v0.10
 
 curl -L https://get.rvm.io | bash -s stable --ruby
 
