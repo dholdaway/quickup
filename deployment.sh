@@ -1,15 +1,14 @@
 #!/bin/sh
 # deploy  Config script
 cd /
-clear
 
 echo "--------------------------------------------------------"
 echo " Quickup Deployment Script v8                           "
 echo "--------------------------------------------------------"
 
-$1 = "" 
-$2 = "" 
-$3 = "" 
+# set $1 = "" 
+# set $2 = "" 
+set $3 = "" 
  
 # EXAMPLE
 # IP = 127.0.0.1
@@ -54,13 +53,19 @@ clear
 # install Node Version Manager
 echo "Installing NVM"
 
-curl https://raw.github.com/creationix/nvm/master/install.sh | sh
+#curl https://raw.github.com/creationix/nvm/master/install.sh | sh
 
-nvm install v0.10
+#nvm install v0.10
+
+git clone https://github.com/creationix/nvm.git ~/.nvm
+
+source ~/.nvm/nvm.sh
 
 curl -L https://get.rvm.io | bash -s stable --ruby
 
 source /usr/local/rvm/scripts/rvm
+
+rvm reload
 
 # install via gem
 
@@ -92,10 +97,6 @@ echo " new relic installed "
 wait 10
 
 clear
-
-echo " install Apache and php5"
-
-apt-get install apache2 php5 php5-curl php5-mysql -y
 
 rm /etc/apache2/sites-available/000-default -y
 
