@@ -7,9 +7,9 @@ echo "--------------------------------------------------------"
 echo " Quickup Deployment Script v2                            "
 echo "--------------------------------------------------------"
 
-$1 - 
-$2 - 
-$3 - 
+set $1 = "162.13.151.36" 
+set $2 = "www.sheptoncider.co.uk" 
+set $3 = "live" 
  
 # EXAMPLE
 # IP = 127.0.0.1
@@ -190,7 +190,7 @@ echo "<VirtualHost *:80>
 
 a2ensite $3
 
-a2enmod rewrite
+#a2enmod rewrite
 
 # reload Apache2
 
