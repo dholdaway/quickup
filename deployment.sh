@@ -16,7 +16,7 @@ $3 = ""
 # ServerName = example.com
 # Vhostname = could be anything 
 
-
+apt-get install apache2 php5 php5-curl php5-mysql -y
 
 
 #update time zone
