@@ -4,7 +4,7 @@ cd /
 clear
 
 echo "--------------------------------------------------------"
-echo " Quickup Deployment Script v5                           "
+echo " Quickup Deployment Script v7                           "
 echo "--------------------------------------------------------"
 
 set $1 = "" 
@@ -17,21 +17,8 @@ set $3 = ""
 # Vhostname = could be anything 
 
 
-#set hostname
-
-#echo -n "Enter Hostname: "
-#read name
-#echo "$name!" > /etc/hostname
-#hostname -f /etc/hostname
-
-#add hostname and ip address to hosts
-
-#echo "#" > /etc/hosts
-#echo "127.0.0.1                localhost" >> /etc/hosts
-#(hostname -I ; hostname -s ; hostname) | sed ':a;N;$!ba;s/\n/ /g' >> /etc/hosts
-
-
 #add host in /etc/hosts
+echo "Adding Host names"
 
 echo $1 $2 >> /etc/hosts 
 echo "ServerName localhost" >> /etc/apache2/httpd.conf 
@@ -48,23 +35,11 @@ date
 apt-get install ntp -y
 update-rc.d ntp enable
 
-#/bin/echo \"%vagrant  ALL=(ALL) ALL\" >> /etc/sudoers
-
-#install git
-
-clear
-
-echo " now installing git "
-wait 10
-
-apt-get install git -y
-
 clear
 
 #
 
 echo " now installing .zsh "
-wait 10
 
 apt-get install zsh -y
 
@@ -130,7 +105,7 @@ rm /etc/apache2/sites-available/000-default -y
 
 mkdir /var/log/apache2/$3
 
-chown root:adm /var/log/apache2/$3
+chown root:root /var/log/apache2/$3
 
 echo "<VirtualHost *:80>
     ServerName $3.co.uk:80
@@ -142,6 +117,7 @@ echo "<VirtualHost *:80>
 
 </VirtualHost>" > /etc/apache2/sites-available/$3
 
+chown www-data:www-data /etc/apache2/sites-available/$3
 
 #echo "<VirtualHost *:80>
  #       ServerAdmin $3
@@ -225,5 +201,14 @@ ufw allow https
 #mkdir /var/log/apache2/mod_evasive
 
 #chown www-data:www-data /var/log/apache2/mod_evasive/
+
+mkdir /versions
+cd /versions
+$1 $2 > installed_versions.txt
+grunt --version > installed_versions.txt
+ruby -v > installed_versions.txt
+compass -v > installed_versions.txt
+npm -v > installed_versions.txt
+php -v > installed_versions.txt
 
 reboot
