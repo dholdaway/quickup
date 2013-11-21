@@ -4,12 +4,12 @@ cd /
 clear
 
 echo "--------------------------------------------------------"
-echo " Quickup Deployment Script v7                           "
+echo " Quickup Deployment Script v8                           "
 echo "--------------------------------------------------------"
 
-set $1 = "" 
-set $2 = "" 
-set $3 = "" 
+$1 = "" 
+$2 = "" 
+$3 = "" 
  
 # EXAMPLE
 # IP = 127.0.0.1
