@@ -204,11 +204,11 @@ ufw allow https
 
 mkdir /versions
 cd /versions
-$1 $2 > installed_versions.txt
-grunt --version > installed_versions.txt
-ruby -v > installed_versions.txt
-compass -v > installed_versions.txt
-npm -v > installed_versions.txt
-php -v > installed_versions.txt
+echo -e $1 $2 >> installed_versions.txt
+echo -e grunt --version >> installed_versions.txt
+echo -e ruby -v >> installed_versions.txt
+echo -e compass -v >> installed_versions.txt
+echo -e npm -v >> installed_versions.txt
+echo -e php -v >> installed_versions.txt
 
 reboot
