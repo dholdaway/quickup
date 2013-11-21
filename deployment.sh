@@ -34,7 +34,7 @@ set $3 = ""
 #add host in /etc/hosts
 
 echo $1 $2 >> /etc/hosts 
-echo ServerName localhost >> /etc/apache2/httpd.conf 
+echo "ServerName localhost" >> /etc/apache2/httpd.conf 
 
 #update time zone
 
