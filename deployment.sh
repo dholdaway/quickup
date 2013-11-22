@@ -50,6 +50,14 @@ sed 's/plugins=(git)/plugins=(git debian node nvm npm ruby rvm)/g' ~/.zshrc_bak 
 
 clear
 
+
+sudo apt-get update
+sudo apt-get install -y python-software-properties python g++ make
+sudo add-apt-repository -y ppa:chris-lea/node.js
+sudo apt-get update
+sudo apt-get install nodejs
+
+
 # install Node Version Manager
 echo "Installing NVM"
 
