@@ -3,26 +3,45 @@
 cd /
 
 echo "--------------------------------------------------------"
-echo " Quickup Deployment Script v8                           "
+echo " Quickup Deployment Script v1.0                         "
 echo "--------------------------------------------------------"
 
-# set $1 = "" 
-# set $2 = "" 
-set $3 = "" 
- 
+echo %admin ALL=NOPASSWD: ALL >> /etc/sudoers
+echo Defaults env_keep="SSH_AUTH_SOCK" >> /etc/sudoers
+
+sed -ie 's/us\.archive\.ubuntu\.com/mirror\.bit\.edu\.cn/' /etc/apt/sources.list
+sed -ie 's/security\.ubuntu\.com/mirror\.bit\.edu\.cn/' /etc/apt/sources.list
+
+aptitude update
+# aptitude upgrade -y
+aptitude install -y bash curl git patch bzip2 build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev libgdbm-dev ncurses-dev automake libtool bison subversion pkg-config libffi-dev libcurl3-dev imagemagick libmagickwand-dev libpcre3-dev
+
+apt-get update -y
+apt-get install -y git-core
+apt-get install -y python-software-properties python g++ make
+add-apt-repository -y ppa:chris-lea/node.js
+apt-get update -y
+apt-get install -y apache2 php5 libapache2-mod-php5 php5-mysql php5-curl
+apt-get install -y nodejs
+apt-get update -y
+
+# "" =
+# "" =
+live="$3" 
+
+
+
 # EXAMPLE
 # IP = 127.0.0.1
 # ServerName = example.com
-# Vhostname = could be anything 
-
-apt-get install apache2 php5 php5-curl php5-mysql -y
+# Vhostname = could be anything
 
 
 #update time zone
 
-dpkg-reconfigure tzdata
+#dpkg-reconfigure tzdata
 
-sudo locale-gen en_GB.UTF-8
+locale-gen en_GB.UTF-8
 
 date
 
@@ -30,33 +49,17 @@ date
 apt-get install ntp -y
 update-rc.d ntp enable
 
-clear
-
-#
-
 echo " now installing .zsh "
 
 apt-get install zsh -y
 
 curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
 
-cd/
-
 cp ~/.zshrc ~/.zshrc_bak
 
 rm ~/.zshrc -y
 
 sed 's/plugins=(git)/plugins=(git debian node nvm npm ruby rvm)/g' ~/.zshrc_bak > ~/.zshrc
-
-clear
-
-
-sudo apt-get update
-sudo apt-get install -y python-software-properties python g++ make
-sudo add-apt-repository -y ppa:chris-lea/node.js
-sudo apt-get update
-sudo apt-get install nodejs
-
 
 # install Node Version Manager
 echo "Installing NVM"
@@ -77,48 +80,18 @@ rvm reload
 
 # install via gem
 
-gem install compass breakpoint
 
-#install Grunt
-
-npm install -g grunt-cli
 
 clear
 
-echo "Installing New Relic"
-# add new relic monitoring
-
-echo "deb http://apt.newrelic.com/debian/ newrelic non-free" >> //etc/apt/sources.list
-
-wget -O- https://download.newrelic.com/548C16BF.gpg | apt-key add -
-
-apt-get update
-
-apt-get install newrelic-sysmond
-
-nrsysmond-config --set license_key=
-
-/etc/init.d/newrelic-sysmond start
-
-echo " new relic installed "
-
-wait 10
-
-clear
-
-rm /etc/apache2/sites-available/000-default -y
-
-mkdir /var/log/apache2/$3
-
-chown root:root /var/log/apache2/$3
-
-echo "<VirtualHost *:80>
+VHOST=$(cat <<EOF
+<VirtualHost *:80>
     ServerName $3.co.uk:80
     DocumentRoot /var/www/$3
 
     LogLevel warn
-    ErrorLog /var/log/apache2/live/error.log
-    CustomLog /var/log/apache2/live/access.log combined
+    ErrorLog /var/log/apache2/$3-error.log
+    CustomLog /var/log/apache2/$3-access.log combined
 
     <Directory /var/www/$3>
                 Options Indexes FollowSymLinks MultiViews
@@ -127,55 +100,15 @@ echo "<VirtualHost *:80>
                 allow from all
     </Directory>
 
+</VirtualHost>
+EOF
+)
 
-</VirtualHost>" > /etc/apache2/sites-available/$3
+echo "${VHOST}" > /etc/apache2/sites-enabled/000-default
+
+chown root:root /var/log/apache2/$3
 
 chown www-data:www-data /etc/apache2/sites-available/$3
-
-#echo "<VirtualHost *:80>
- #       ServerAdmin $3
-  #      ServerName $2
-#
- #       DocumentRoot $5$2/public_html/
-  #      <Directory />#
-  #              Options FollowSymLinks
-  #              AllowOverride All
-  #      </Directory>
-  #      <Directory $5$2/public_html/>
- #               Options Indexes FollowSymLinks MultiViews
- #               AllowOverride All
- #               Order allow,deny
- #               allow from all
- #       </Directory>
-#
- #       ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
-  #      <Directory "'/usr/lib/cgi-bin'">
-   #             AllowOverride All
-    #            Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
-     #           Order allow,deny
-      #          Allow from all
-      #  </Directory>
-
-     #   ErrorLog $5$2/error.log
-
-        # Possible values include: debug, info, notice, warn, error, crit,
-        # alert, emerg.
-      #  LogLevel warn
-
-       # CustomLog $5$2/access.log combined
-
-   # Alias /doc/ "'/usr/share/doc/'"
-   # <Directory "'/usr/share/doc/'">
-     #   Options Indexes MultiViews FollowSymLinks
-      #  AllowOverride All
-     #   Order deny,allow
-    #    Deny from all
-   #     Allow from 127.0.0.0/255.0.0.0 ::1/128
-  #  </Directory>
-
-#</VirtualHost>" > /etc/apache2/sites-available/stage 
-
-#add link in /etc/apache2/site-enabled
 
 a2ensite $3
 
@@ -183,10 +116,12 @@ a2enmod rewrite
 
 # reload Apache2
 
-/etc/init.d/apache2 reload
+service apache2 restart
+
+
 
 #Firewall
-apt-get install ufw - y
+apt-get install ufw -y
 # enable the firewall previously installed
 ufw enable
 
@@ -209,26 +144,44 @@ ufw allow http
 # allow https port
 ufw allow https
 
-#apt-get install libapache2-mod-evasive libapache-mod-security -y
+gem install compass
 
-#mkdir /var/log/apache2/mod_evasive
+gem install breakpoint
 
-#chown www-data:www-data /var/log/apache2/mod_evasive/
+#install Grunt
+
+npm install -g grunt-cli
 
 mkdir /versions
 cd /versions
+echo "Whats been installed?" >> installed_versions.txt
 $1 $2 >> installed_versions.txt
+echo _ >> installed_versions.txt
+echo _ >> installed_versions.txt
+echo "Grunt" >> installed_versions.txt
 grunt --version >> installed_versions.txt
+echo _ >> installed_versions.txt
+echo "Ruby" >> installed_versions.txt
 ruby -v >> installed_versions.txt
+echo _ >> installed_versions.txt
+echo _ >> installed_versions.txt
+echo "Compass" >> installed_versions.txt
 compass -v >> installed_versions.txt
+echo _ >> installed_versions.txt
+echo _ >> installed_versions.txt
+echo "NPM" >> installed_versions.txt
 npm -v >> installed_versions.txt
+echo _ >> installed_versions.txt
+echo _ >> installed_versions.txt
+echo "PHP" >> installed_versions.txt
 php -v >> installed_versions.txt
+echo _ >> installed_versions.txt
+nodejs -v >> installed_versions.txt
 
-#add host in /etc/hosts
+apt-get clean
 
 echo "Adding Host names"
 
-echo $1 $2 >> /etc/hosts 
 echo "ServerName localhost" >> /etc/apache2/httpd.conf 
 
 reboot
