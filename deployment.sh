@@ -114,6 +114,8 @@ a2ensite $3
 
 a2enmod rewrite
 
+a2enmod mod_reqtimeout
+
 # reload Apache2
 
 service apache2 restart
@@ -148,6 +150,18 @@ gem install compass
 
 gem install breakpoint
 
+deb http://apt.newrelic.com/debian/ newrelic non-free
+
+wget -O- https://download.newrelic.com/548C16BF.gpg | apt-key add -
+
+apt-get update
+
+apt-get install newrelic-sysmond
+
+nrsysmond-config --set license_key=
+
+/etc/init.d/newrelic-sysmond start
+
 #install Grunt
 
 npm install -g grunt-cli
@@ -175,7 +189,8 @@ echo _ >> installed_versions.txt
 echo _ >> installed_versions.txt
 echo "PHP" >> installed_versions.txt
 php -v >> installed_versions.txt
-echo _ >> installed_versions.txt
+echo - >> installed_versions.txt
+echo "nodejs" >> installed_versions.txt
 nodejs -v >> installed_versions.txt
 
 apt-get clean
